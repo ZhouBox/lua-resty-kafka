@@ -149,6 +149,7 @@ local function message_package(key, msg)
         str_int8(0),
         -- XX hard code no Compression
         str_int8(0),
+        str_int64(ngx.now() * 1000),
         str_int32(key_len),
         key,
         str_int32(len),
