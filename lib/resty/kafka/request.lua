@@ -163,7 +163,7 @@ local function message_package(key, msg, message_version)
         local _ts = ngx.now() * 1000
         req = {
             -- MagicByte
-            str_int8(0),
+            str_int8(1),
             -- XX hard code no Compression
             str_int8(0),
             str_int64(_ts),
