@@ -64,10 +64,16 @@ end
 function _M.new(self, apikey, correlation_id, client_id)
     local c_len = #client_id
 
+    local _api_version = API_VERSION
+
+    if apikey == ProduceRequest then
+        _api_version = 1
+    end
+
     local req = {
         0,   -- request size: int32
         str_int16(apikey),
-        str_int16(API_VERSION),
+        str_int16(_api_version),
         str_int32(correlation_id),
         str_int16(c_len),
         client_id,
@@ -144,12 +150,16 @@ local function message_package(key, msg)
     local key_len = #key
     local len = #msg
 
+    ngx.update_time()
+
+    local _ts = ngx.now() * 1000
+
     local req = {
         -- MagicByte
         str_int8(0),
         -- XX hard code no Compression
         str_int8(0),
-        str_int64(ngx.now() * 1000),
+        str_int64(_ts),
         str_int32(key_len),
         key,
         str_int32(len),
@@ -157,7 +167,7 @@ local function message_package(key, msg)
     }
 
     local str = concat(req)
-    return crc32(str), str, key_len + len + 14
+    return crc32(str), str, key_len + len + 22
 end
 
 
