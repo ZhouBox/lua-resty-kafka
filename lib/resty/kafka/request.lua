@@ -2,6 +2,7 @@
 
 
 local bit = require "bit"
+local ffi = require "ffi"
 
 
 local setmetatable = setmetatable
@@ -159,14 +160,14 @@ local function message_package(key, msg, message_version)
     local req
     local head_len
     if message_version == MESSAGE_VERSION_1 then
-        ngx.update_time()
-        local _ts = ngx.now() * 1000
+        --ngx.update_time()
+        --local _ts = ngx.now() * 1000
         req = {
             -- MagicByte
             str_int8(1),
             -- XX hard code no Compression
             str_int8(0),
-            str_int64(_ts),
+            str_int64(ffi.new("int64_t", (os.time() * 1000))),
             str_int32(key_len),
             key,
             str_int32(len),
