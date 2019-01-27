@@ -67,7 +67,7 @@ function _M.new(self, apikey, correlation_id, client_id)
     local _api_version = API_VERSION
 
     if apikey == ProduceRequest then
-        _api_version = 1
+        _api_version = 2
     end
 
     local req = {
