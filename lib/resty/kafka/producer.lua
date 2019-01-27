@@ -102,7 +102,7 @@ local function produce_decode(resp)
                 ret[topic][partition] = {
                     errcode = resp:int16(),
                     offset = resp:int64(),
-                    timestamp = resp::int64(),
+                    timestamp = resp:int64(),
                 }  
             end
         end
