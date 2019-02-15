@@ -46,6 +46,32 @@ function _M.add(self, topic, key, message)
 end
 
 
+function _M.addsome(self, topic, key, messages)
+    local num = self.num
+    local size = self.size
+    local _msgL = #messages
+
+    if (num + _msgL * 3) >= size then
+        return nil, "buffer overflow"
+    end
+
+    for i, message in ipairs(messages) do
+
+        local index = (self.start + num) % size
+        local queue = self.queue
+
+        queue[index] = topic
+        queue[index + 1] = key
+        queue[index + 2] = message
+
+        self.num = num + 3
+        num = self.num
+    end
+
+    return true
+end
+
+
 function _M.pop(self)
     local num = self.num
     if num <= 0 then

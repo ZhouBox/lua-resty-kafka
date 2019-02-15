@@ -380,6 +380,26 @@ function _M.send(self, topic, key, message)
 end
 
 
+function _M.sendsome(self, topic, key, messages)
+    if self.async then
+        local ringbuffer = self.ringbuffer
+
+        local ok, err = ringbuffer:addsome(topic, key, messages)
+        if not ok then
+            return nil, err
+        end
+
+        if not self.flushing and (ringbuffer:need_send() or is_exiting()) then
+            _flush_buffer(self)
+        end
+
+        return true
+    else 
+        return false
+    end
+end
+
+
 function _M.flush(self)
     return _flush(nil, self)
 end
