@@ -380,11 +380,11 @@ function _M.send(self, topic, key, message)
 end
 
 
-function _M.sendsome(self, topic, key, messages)
+function _M.sendsome(self, topic, messages)
     if self.async then
         local ringbuffer = self.ringbuffer
 
-        local ok, err = ringbuffer:addsome(topic, key, messages)
+        local ok, err = ringbuffer:addsome(topic, messages)
         if not ok then
             return nil, err
         end

@@ -46,7 +46,7 @@ function _M.add(self, topic, key, message)
 end
 
 
-function _M.addsome(self, topic, key, messages)
+function _M.addsome(self, topic, messages)
     local num = self.num
     local size = self.size
     local _msgL = #messages
@@ -55,7 +55,7 @@ function _M.addsome(self, topic, key, messages)
         return nil, "buffer overflow"
     end
 
-    for i, message in ipairs(messages) do
+    for key, message in pairs(messages) do
 
         local index = (self.start + num) % size
         local queue = self.queue
