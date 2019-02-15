@@ -55,14 +55,14 @@ function _M.addsome(self, topic, messages)
         return nil, "buffer overflow"
     end
 
-    for key, message in pairs(messages) do
+    for i, message in pairs(messages) do
 
         local index = (self.start + num) % size
         local queue = self.queue
 
         queue[index] = topic
-        queue[index + 1] = key
-        queue[index + 2] = message
+        queue[index + 1] = message[1]
+        queue[index + 2] = message[2]
 
         self.num = num + 3
         num = self.num
